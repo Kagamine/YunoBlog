@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin_Articles.aspx.cs" Inherits="YunoBlog.Admin_Articles" %>
+﻿<%@ Page Title="文章列表" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Admin_Articles.aspx.cs" Inherits="YunoBlog.Admin_Articles" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
@@ -12,7 +12,7 @@
             <table style="width:100%">
                 <thead>
                     <tr>
-                        <th>文章标题</th>
+                       <th style="width:50%">文章标题</th>
                         <th>创建时间</th>
                         <th>操作</th>
                     </tr>
