@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Articles.Preview.aspx.cs" Inherits="YunoBlog.Ajax.Articles_Preview" %>

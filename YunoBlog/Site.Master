@@ -1,0 +1,85 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="YunoBlog.Site" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link rel="stylesheet" type="text/css" media="all" href="Css/Style.css" />
+    <script type="text/javascript" src="Scripts/jQuery.js"></script>
+    <script type="text/javascript" src="Scripts/Main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="bg m">
+            <div class="l"></div>
+            <div class="c">
+                <div class="cm"></div>
+            </div>
+            <div class="m"></div>
+        </div>
+        <div id="container">
+            <div class="header m">
+                <div class="search">
+                    <div id="search">
+                        <input type="text" placeholder="搜索" maxlength="50" name="s" id="s" />
+                        <input type="submit" id="btn" value="搜索" />
+                    </div>
+                </div>
+                <div class="nav">
+                    <ul>
+                        <li id="navHome"><a href="/Default.aspx">Home</a></li>
+                        <li id="navAbout"><a href="/About.aspx">关于我</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="content">
+                <script>window.enable_autoHighlight = '#main>.article';</script>
+                <div id="main">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+                <div id="sidebar">
+                    <div class="module widget_categories">
+                        <div class="title">按月份</div>
+                        <ul>
+                            <%=Category %>
+                        </ul>
+                    </div>
+                    <div class="module widget_links">
+                        <div class="title">友情链接</div>
+                        <ul class='xoxo blogroll'>
+                        </ul>
+                    </div>
+                    <div class="module widget_meta">
+                        <div class="title">功能</div>
+                        <ul>
+                            <%=AdminNav %>
+                        </ul>
+                    </div>
+                </div>
+                <br clear="both" />
+            </div>
+        </div>
+        <div class="footer m">
+            <div class="content">
+                Copyright(C) 2014 <a href="http://www.4321.io" class="profile">www.4321.io</a>
+            </div>
+            <div class="engine">Powered by YunoBlog</div>
+            <div class="back"><a href="#" rel="nofollow" title="Top">返回顶部</a></div>
+        </div>
+    </form>
+    <script>
+        $.get('Links.xml?rnd=' + Math.random().toString()).success(function (content) {
+            $(content).find("Link").unbind().each(function () {
+                var Title = $(this).find("Title").text();
+                var Url = $(this).find("Url").text();
+                $(".xoxo").append('<li><a href="' + Url + '" target="_blank">' + Title + '</a></li>');
+            });
+        });
+    </script>
+</body>
+</html>

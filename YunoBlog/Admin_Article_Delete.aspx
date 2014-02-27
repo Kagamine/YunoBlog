@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Admin_Article_Delete.aspx.cs" Inherits="YunoBlog.Admin_Article_Delete" %>

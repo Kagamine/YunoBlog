@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Admin_Logout.aspx.cs" Inherits="YunoBlog.Admin_Logout" %>
