@@ -21,7 +21,10 @@ namespace YunoBlog
                 txtTitle.Visible = false;
                 if (!IsPostBack)
                 {
-                    Entity.Article article = new Entity.Article() { Title = Request.QueryString["src"] };
+                    Entity.Article article = new Entity.Article();
+                    if (Request.QueryString["IsPage"] != null)
+                        article.IsPage = true;
+                    article.Title = Request.QueryString["src"];
                     txtContent.Text = article.MarkdownContent;
                 }
             }
