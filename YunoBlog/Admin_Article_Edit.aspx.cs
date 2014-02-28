@@ -55,6 +55,8 @@ namespace YunoBlog
                 else
                 {
                     Entity.Article article = new Entity.Article();
+                    if (Request.QueryString["IsPage"] != null)
+                        article.IsPage = true;
                     article.Title = txtTitle.Text;
                     article.MarkdownContent = txtContent.Text;
                     Dal.ArticleDao.Push(article);
@@ -67,6 +69,8 @@ namespace YunoBlog
             else
             {
                 Entity.Article article = new Entity.Article();
+                if (Request.QueryString["IsPage"] != null)
+                    article.IsPage = true;
                 article.Title = Request.QueryString["src"];
                 article.MarkdownContent = txtContent.Text;
                 article.Save();
@@ -94,7 +98,6 @@ namespace YunoBlog
                     txtContent.Text += "\r\n[" + FileUpload1.FileName + "](Upload\\" + filename + ")";
                 }
             }
-
         }
     }
 }

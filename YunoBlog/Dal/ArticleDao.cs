@@ -35,14 +35,21 @@ namespace YunoBlog.Dal
         public static void Pop(Entity.Article article)
         {
             System.IO.File.Delete(article.Directory);
-            Articles.RemoveAt(Articles.FindIndex(x => x.Title == article.Title));
-            try
+            if (!article.IsPage)
             {
-                Site.Category = null;
-                Begin = Articles[Articles.Count() - 1].CreationTime;
-                End = Articles[0].CreationTime;
+                Articles.RemoveAt(Articles.FindIndex(x => x.Title == article.Title));
+                try
+                {
+                    Site.Category = null;
+                    Begin = Articles[Articles.Count() - 1].CreationTime;
+                    End = Articles[0].CreationTime;
+                }
+                catch { }
             }
-            catch { }
+            else
+            {
+                Pages.RemoveAt(Pages.FindIndex(x => x.Title == article.Title));
+            }
         }
         public static void Rebuild()
         {

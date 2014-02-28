@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="article">
         <div class="header">
-            <div class="title">文章列表</div>
+            <div class="title">页面列表</div>
         </div>
         <div class="section entry">
             <p><a href="Admin_Article_Edit.aspx?IsPage=true">新建页面</a></p>

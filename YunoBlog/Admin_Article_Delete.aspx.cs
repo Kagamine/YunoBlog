@@ -14,9 +14,15 @@ namespace YunoBlog
             if (Session["Admin"] == null) Response.Redirect("Admin.aspx");
             if (Request.QueryString["sid"] == Session["Admin"].ToString())
             {
-                Dal.ArticleDao.Pop(new Entity.Article() { Title = Request.QueryString["src"] });
+                if (Request.QueryString["src"] != null)
+                    Dal.ArticleDao.Pop(new Entity.Article() { Title = Request.QueryString["src"] });
+                else if (Request.QueryString["page"] != null)
+                    Dal.ArticleDao.Pop(new Entity.Article() { Title = Request.QueryString["page"], IsPage = true });
             }
-            Response.Redirect("Admin_Articles.aspx");
+            if (Request.QueryString["src"] != null)
+                Response.Redirect("Admin_Articles.aspx");
+            if (Request.QueryString["page"] != null)
+                Response.Redirect("Admin_Pages.aspx");
         }
     }
 }
