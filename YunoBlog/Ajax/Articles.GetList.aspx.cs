@@ -13,14 +13,14 @@ namespace YunoBlog.Ajax
         public const string ArticleTemplate = "<div class='article'><div class='header'><div class='title'><a href='Article.aspx?src={Article_Title_Url}'>{Article_Title}</a></div><div class='info info1'><span class='time'>{Article_CreationTime}</span></div></div><div class='section entry'>{Article_Html}{Article_More}</div></div>";
         protected void Page_Load(object sender, EventArgs e)
         {
-            var page = Convert.ToInt32(Request.Form["Page"]);
+            var page = Convert.ToInt32(Request.QueryString["Page"]);
             List<Entity.Article> articles;
-            if (Convert.ToInt32(Request.Form["Year"]) == 0 || Convert.ToInt32(Request.Form["Month"]) == 0)
+            if (Convert.ToInt32(Request.QueryString["Year"]) == 0 || Convert.ToInt32(Request.QueryString["Month"]) == 0)
                 articles = Dal.ArticleDao.Articles.Skip(page * 5).Take(5).ToList();
             else
                 articles = (from a in Dal.ArticleDao.Articles
-                            where a.CreationTime.Year == Convert.ToInt32(Request.Form["Year"])
-                            && a.CreationTime.Month == Convert.ToInt32(Request.Form["Month"])
+                            where a.CreationTime.Year == Convert.ToInt32(Request.QueryString["Year"])
+                            && a.CreationTime.Month == Convert.ToInt32(Request.QueryString["Month"])
                             select a).Skip(page * 5).Take(5).ToList();
             JavaScriptSerializer jss = new JavaScriptSerializer();
             Response.Write(jss.Serialize(articles));

@@ -29,13 +29,13 @@
 };
 var lock = false;
 
-function LoadArticles(yy, mm) {
+function LoadArticles() {
     if (lock) return;
     lock = true;
     $.getJSON("Ajax/Articles.GetList.aspx", {
         Page: page,
-        Year: yy,
-        Month: mm
+        Year: year,
+        Month: month
         }, function (data) {
             for (var i in data)
             {
@@ -46,7 +46,10 @@ function LoadArticles(yy, mm) {
                 .replace("{Article_Html}", data[i].Summary)
                 .replace("{Article_More}", data[i].Lines < 10 ? "" : "<p><a href='Article.aspx?src={Article_Title_Url}' class='more-link'>(更多&#8230;)</a></p>")
                 $("#main").append(article);
+                
             }
+            page++;
+            lock = false;
         });
 }
 
@@ -59,11 +62,11 @@ $(document).ready(function () {
     });
     if (typeof (ArticleList) != "undefined")
     {
-        LoadArticles(year, month);
+        LoadArticles();
         $(window).scroll(function () {
             totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
             if ($(document).height() <= totalheight) {
-                LoadArticles(year, month);
+                LoadArticles();
             }
         });
     }

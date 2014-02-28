@@ -17,17 +17,20 @@ namespace YunoBlog
             if (Category == null || Category==String.Empty)
             {
                 Category = "";
-                for (DateTime i = new DateTime(Dal.ArticleDao.Begin.Year, Dal.ArticleDao.Begin.Month, 1); i.Date <= new DateTime(Dal.ArticleDao.End.Year, Dal.ArticleDao.End.Month, 1); i = i.AddMonths(1))
+                if (Dal.ArticleDao.Articles.Count() > 0)
                 {
-                    Category += String.Format("<li class='cat-item'><a href='Default.aspx?y={0}&m={1}'>{2}</a> ({3})</li>",
-                        i.Year,
-                        i.Month,
-                        i.ToString("yyyy年MM月"),
-                        (from a in Dal.ArticleDao.Articles
-                         let t = a.CreationTime
-                         where t.Year == i.Year
-                         && t.Month == i.Month
-                         select a.Title).Count());
+                    for (DateTime i = new DateTime(Dal.ArticleDao.End.Year, Dal.ArticleDao.End.Month, 1); i.Date >= new DateTime(Dal.ArticleDao.Begin.Year, Dal.ArticleDao.Begin.Month, 1); i = i.AddMonths(-1))
+                    {
+                        Category += String.Format("<li class='cat-item'><a href='Default.aspx?y={0}&m={1}'>{2}</a> ({3})</li>",
+                            i.Year,
+                            i.Month,
+                            i.ToString("yyyy年MM月"),
+                            (from a in Dal.ArticleDao.Articles
+                             let t = a.CreationTime
+                             where t.Year == i.Year
+                             && t.Month == i.Month
+                             select a.Title).Count());
+                    }
                 }
             }
             if (Session["Admin"] != null)
