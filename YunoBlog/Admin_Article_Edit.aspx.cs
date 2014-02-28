@@ -31,16 +31,26 @@ namespace YunoBlog
         {
             if (Request.QueryString["src"] == null)
             {
-                var IsExisted = (from a in Dal.ArticleDao.Articles
+                bool IsExisted;
+                if (Request.QueryString["IsPage"] == null)
+                {
+                    IsExisted = (from a in Dal.ArticleDao.Articles
                                  where a.Title == txtTitle.Text
                                  select a.Title).Count() == 0 ? false : true;
+                }
+                else
+                {
+                    IsExisted = (from a in Dal.ArticleDao.Pages
+                                 where a.Title == txtTitle.Text
+                                 select a.Title).Count() == 0 ? false : true;
+                }
                 if (IsExisted)
                 {
-                    lbInfo.Text = "文章标题已存在，请修改后尝试！";
+                    lbInfo.Text = "文章/页面标题已存在，请修改后尝试！";
                 }
                 else if (txtTitle.Text.Trim(' ') == "")
                 {
-                    lbInfo.Text = "文章标题不可为空！";
+                    lbInfo.Text = "文章/页面标题不可为空！";
                 }
                 else
                 {
@@ -48,7 +58,10 @@ namespace YunoBlog
                     article.Title = txtTitle.Text;
                     article.MarkdownContent = txtContent.Text;
                     Dal.ArticleDao.Push(article);
-                    Response.Redirect("Admin_Articles.aspx");
+                    if (Request.QueryString["IsPage"] == null)
+                        Response.Redirect("Admin_Articles.aspx");
+                    else
+                        Response.Redirect("Admin_Pages.aspx");
                 }
             }
             else
@@ -58,7 +71,10 @@ namespace YunoBlog
                 article.MarkdownContent = txtContent.Text;
                 article.Save();
                 Dal.ArticleDao.Rebuild();
-                Response.Redirect("Admin_Articles.aspx");
+                if (Request.QueryString["IsPage"] == null)
+                    Response.Redirect("Admin_Articles.aspx");
+                else
+                    Response.Redirect("Admin_Pages.aspx");
             }
         }
 

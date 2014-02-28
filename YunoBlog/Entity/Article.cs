@@ -18,6 +18,9 @@ namespace YunoBlog.Entity
             }
         }
 
+        [ScriptIgnore]
+        public bool IsPage { get; set; }
+
         public string CreationTimeAsString
         {
             get { return CreationTime.ToString("yyyy年MM月dd日 HH:mm"); }
@@ -44,7 +47,10 @@ namespace YunoBlog.Entity
         {
             get
             {
-                return System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "\\Articles\\" + Title + ".md";
+                if (IsPage)
+                    return System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "\\Pages\\" + Title + ".md";
+                else
+                    return System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "\\Articles\\" + Title + ".md";
             }
         }
 

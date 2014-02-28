@@ -32,7 +32,7 @@
                 <div class="nav">
                     <ul>
                         <li id="navHome"><a href="/Default.aspx">Home</a></li>
-                        <li id="navAbout"><a href="/About.aspx">关于我</a></li>
+                        <%=NavList %>
                     </ul>
                 </div>
             </div>
@@ -72,13 +72,5 @@
             <div class="back"><a href="#" rel="nofollow" title="Top">返回顶部</a></div>
         </div>
     </form>
-    <script>
-        $.getJSON("Scripts/Links.js", {}, function (data) {
-            for (var link in data)
-            {
-                $(".xoxo").append('<li><a href="' + data[link].url + '" target="_blank">' + data[link].title + '</a></li>');
-            }
-        });
-    </script>
 </body>
 </html>

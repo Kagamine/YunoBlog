@@ -10,7 +10,7 @@ namespace YunoBlog
     public partial class Site : System.Web.UI.MasterPage
     {
         public static string Category = null;
-        public string AdminNav = "<li><a href='Admin.aspx'>登录</a></li>";
+        public string AdminNav = "<li><a href='Admin.aspx'>登录</a></li>", NavList = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title += " - " + Config.SiteName;
@@ -35,8 +35,16 @@ namespace YunoBlog
                 AdminNav = "";
                 AdminNav += "<li><a href='Admin_Config.aspx'>站点设置</a></li>";
                 AdminNav += "<li><a href='Admin_Articles.aspx'>文章管理</a></li>";
+                AdminNav += "<li><a href='Admin_Pages.aspx'>页面管理</a></li>";
                 AdminNav += "<li><a href='Admin_Links.aspx'>链接管理</a></li>";
                 AdminNav += "<li><a href='Admin_Logout.aspx?sid=" + Session["Admin"] + "'>注销</a></li>";
+            }
+            foreach (var p in Dal.ArticleDao.Pages)
+            {
+                NavList += String.Format("<li id='Page_{0}'><a href='/Article.aspx?page={1}'>{2}</a></li>",
+                    Dal.ArticleDao.Pages.FindIndex(x => x.Title == p.Title),
+                    HttpUtility.UrlEncode(p.Title),
+                    p.Title);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace YunoBlog.Ajax
         {
             var page = Convert.ToInt32(Request.Form["Page"]);
             List<Entity.Article> articles;
-            if (Request.Form["Year"] == null || Request.Form["Month"] == null)
+            if (Convert.ToInt32(Request.Form["Year"]) == 0 || Convert.ToInt32(Request.Form["Month"]) == 0)
                 articles = Dal.ArticleDao.Articles.Skip(page * 5).Take(5).ToList();
             else
                 articles = (from a in Dal.ArticleDao.Articles

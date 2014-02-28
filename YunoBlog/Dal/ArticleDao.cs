@@ -8,12 +8,21 @@ namespace YunoBlog.Dal
     public static class ArticleDao
     {
         public static List<Entity.Article> Articles = new List<Entity.Article>();
+        public static List<Entity.Article> Pages = new List<Entity.Article>(); 
         public static DateTime Begin, End;
         public static void Push(Entity.Article article)
         {
             article.Save();
-            Articles.Add(article);
-            Articles.Sort((a, b) => { return DateTime.Compare(b.CreationTime, a.CreationTime); });
+            if (article.IsPage)
+            {
+                Pages.Add(article);
+                Pages.Sort((a, b) => { return DateTime.Compare(b.CreationTime, a.CreationTime); });
+            }
+            else
+            {
+                Articles.Add(article);
+                Articles.Sort((a, b) => { return DateTime.Compare(b.CreationTime, a.CreationTime); });
+            }
             Dal.ArticleDao.Rebuild();
             try
             {
@@ -36,6 +45,24 @@ namespace YunoBlog.Dal
             catch { }
         }
         public static void Rebuild()
+        {
+            RebuildArticles();
+            RebuildPages();
+        }
+        public static void RebuildPages()
+        {
+            Pages.Clear();
+            var files = System.IO.Directory.GetFiles(System.Web.HttpContext.Current.Server.MapPath("~") + "\\Pages", "*.md");
+            foreach (var file in files)
+            {
+                var article = new Entity.Article();
+                article.Title = System.IO.Path.GetFileNameWithoutExtension(file);
+                article.IsPage = true;
+                Pages.Add(article);
+            }
+            Pages.Sort((a, b) => { return DateTime.Compare(b.CreationTime, a.CreationTime); });
+        }
+        public static void RebuildArticles()
         {
             Articles.Clear();
             var files = System.IO.Directory.GetFiles(System.Web.HttpContext.Current.Server.MapPath("~") + "\\Articles", "*.md");

@@ -30,6 +30,6 @@
                 </script>
             </div>
         </p>
-
     </div>
+    <%=HighLight %>
 </asp:Content>
