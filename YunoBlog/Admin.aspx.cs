@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,12 @@ namespace YunoBlog
 {
     public partial class Admin : System.Web.UI.Page
     {
+        private static Hashtable IPs = new Hashtable();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["Admin"] != null) Response.Redirect("Admin_Config.aspx");
+            if (IPs[HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]] != null && Convert.ToInt32(IPs[HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]]) > 3)
+                Response.Redirect("Default.aspx");
         }
         private string RandomString(Random rand, int length)
         {
@@ -32,6 +36,10 @@ namespace YunoBlog
             {
                 Session["Admin"] = RandomString(new Random(), 32);
                 Response.Redirect("Admin_Config.aspx");
+            }
+            else
+            {
+                IPs[HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]] = Convert.ToInt32(IPs[HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]]) + 1;
             }
         }
     }

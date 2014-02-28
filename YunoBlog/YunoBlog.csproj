@@ -122,8 +122,8 @@
     <Content Include="Images\header_left.png" />
     <Content Include="Images\search_bg.png" />
     <Content Include="Images\search_icon.png" />
-    <Content Include="Links.xml" />
     <Content Include="Scripts\jQuery.js" />
+    <Content Include="Scripts\Links.js" />
     <Content Include="Scripts\Main.js" />
     <Content Include="Web.config" />
   </ItemGroup>

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using System.Web.Script.Serialization;
 
 namespace YunoBlog.Entity
 {
     public class Article
     {
+        [ScriptIgnore]
         public DateTime CreationTime
         {
             get
@@ -15,6 +17,13 @@ namespace YunoBlog.Entity
                 return File.GetCreationTime(Directory);
             }
         }
+
+        public string CreationTimeAsString
+        {
+            get { return CreationTime.ToString("yyyy年MM月dd日 HH:mm"); }
+        }
+
+        [ScriptIgnore]
         private string title;
         public string Title
         {
@@ -29,6 +38,8 @@ namespace YunoBlog.Entity
                     MarkdownContent = File.ReadAllText(Directory);
             }
         }
+
+        [ScriptIgnore]
         public string Directory
         {
             get
@@ -36,11 +47,15 @@ namespace YunoBlog.Entity
                 return System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "\\Articles\\" + Title + ".md";
             }
         }
+
+        [ScriptIgnore]
         public string MarkdownContent { get; set; }
         public void Save()
         {
             File.WriteAllText(this.Directory, MarkdownContent);
         }
+
+        [ScriptIgnore]
         public string Html
         {
             get
@@ -49,6 +64,8 @@ namespace YunoBlog.Entity
                 return md.Transform(MarkdownContent);
             }
         }
+
+        [ScriptIgnore]
         private string MarkdownSummary
         {
             get
@@ -70,6 +87,7 @@ namespace YunoBlog.Entity
                 }
             }
         }
+
         public int Lines
         {
             get
@@ -81,6 +99,7 @@ namespace YunoBlog.Entity
                 return lines.Length;
             }
         }
+
         public string Summary
         {
             get

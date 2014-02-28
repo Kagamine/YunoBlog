@@ -73,12 +73,11 @@
         </div>
     </form>
     <script>
-        $.get('Links.xml?rnd=' + Math.random().toString()).success(function (content) {
-            $(content).find("Link").unbind().each(function () {
-                var Title = $(this).find("Title").text();
-                var Url = $(this).find("Url").text();
-                $(".xoxo").append('<li><a href="' + Url + '" target="_blank">' + Title + '</a></li>');
-            });
+        $.getJSON("Scripts/Links.js", {}, function (data) {
+            for (var link in data)
+            {
+                $(".xoxo").append('<li><a href="' + data[link].url + '" target="_blank">' + data[link].title + '</a></li>');
+            }
         });
     </script>
 </body>

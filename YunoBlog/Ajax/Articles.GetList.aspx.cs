@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Script.Serialization;
 
 namespace YunoBlog.Ajax
 {
@@ -21,15 +22,8 @@ namespace YunoBlog.Ajax
                             where a.CreationTime.Year == Convert.ToInt32(Request.Form["Year"])
                             && a.CreationTime.Month == Convert.ToInt32(Request.Form["Month"])
                             select a).Skip(page * 5).Take(5).ToList();
-            foreach (var article in articles)
-            {
-                Response.Write(ArticleTemplate
-                    .Replace("{Article_More}", article.Lines < 10 ? "" : "<p><a href='Article.aspx?src={Article_Title_Url}' class='more-link'>(更多&#8230;)</a></p>")
-                    .Replace("{Article_Title}", article.Title)
-                    .Replace("{Article_Title_Url}", HttpUtility.UrlEncode(article.Title))
-                    .Replace("{Article_CreationTime}", article.CreationTime.ToString("yyyy年MM月dd日 HH:mm"))
-                    .Replace("{Article_Html}", article.Summary));
-            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            Response.Write(jss.Serialize(articles));
         }
     }
 }
