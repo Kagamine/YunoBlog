@@ -15,11 +15,15 @@ namespace YunoBlog
         {
             if (Request.QueryString["src"] != null)
             {
+                if (!Dal.ArticleDao.Articles.Any(x => x.Title == Request.QueryString["src"]))
+                    Response.Redirect("Default.aspx");
                 article.Title = Request.QueryString["src"];
                 Page.Title = article.Title;
             }
             else if (Request.QueryString["page"] != null)
             {
+                if (!Dal.ArticleDao.Pages.Any(x => x.Title == Request.QueryString["page"]))
+                    Response.Redirect("Default.aspx");
                 article.IsPage = true;
                 article.Title = Request.QueryString["page"];
                 Page.Title = article.Title;
